@@ -12,12 +12,15 @@ public class ShotPut {
     */
 
     private List<Double> _pitches = new ArrayList<Double>(3);
+    private String _athleteNumber;
 
+    public void set_athleteNumber(String athleteNumber) { this._athleteNumber = athleteNumber; }
+    public String get_athleteNUmber() { return _athleteNumber; }
+    
     public void AddShotPut (double pitch) { this._pitches.add(pitch); }
 
-    public Double GetBiggestPitch () {
-        double biggestPitch = Collections.max(this._pitches);
-        return biggestPitch;
-        //return String.format("Maximum range of pitches: ", Collections.max(this._pitches));
+    public List<Double> GetPitches () {
+        Collections.sort(this._pitches);
+        return this._pitches;
     }
 }

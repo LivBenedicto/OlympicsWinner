@@ -2,6 +2,7 @@ package app;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Map.Entry;
@@ -28,7 +29,7 @@ public class Modalities {
                     break;
 
                 case 3:
-                    ShotPutModality(); // email
+                    ShotPutModality();
                     break;
 
                 case 4:
@@ -95,6 +96,7 @@ public class Modalities {
             else if (enterAttack == 3) {
                 judoFisrt.set_ippon();
                 System.out.println("#1 Athlete attack Ippon and wins!");
+                break;
             }
 
             System.out.println("Second athlete attack: ");
@@ -106,6 +108,7 @@ public class Modalities {
             else if (enterAttack == 3) {
                 judoSecond.set_ippon();
                 System.out.println("#2 Athlete attack Ippon and wins!");
+                break;
             }
 
         } while (enterAttack < 3);
@@ -121,20 +124,36 @@ public class Modalities {
                 + "\nHow many athletes do you want to compare?");
         int countAthletes = scanner.nextInt();
 
-        Map<String, Double> biggestPitchAthletes = new HashMap<String, Double>(countAthletes);
+        Map<String, List<Double>> biggestPitchAthletes = new HashMap<String, List<Double>>(countAthletes);
 
         for (int countAthlete = 1; countAthlete <= countAthletes; countAthlete++) {
             String numberAthlete = "#" + countAthlete + " Athlete";
             System.out.println(numberAthlete);
             ShotPut shotPut = new ShotPut();
+            shotPut.set_athleteNumber(numberAthlete);
 
             for (int pitch = 1; pitch < 4; pitch++) {
                 System.out.print("Enter with the #" + pitch + " pitch: ");
                 shotPut.AddShotPut(scanner.nextDouble());
             }
-            biggestPitchAthletes.put(numberAthlete, shotPut.GetBiggestPitch());
+            biggestPitchAthletes.put(shotPut.get_athleteNUmber(), shotPut.GetPitches());
         }
-        System.out.println(FindWinner(biggestPitchAthletes));
+        System.out.println(FindWinnerShotPut(biggestPitchAthletes));
+    }
+
+    private static String FindWinnerShotPut(Map<String, List<Double>> biggestPitchAthletes) {
+        double biggestPitch = 0.0;
+        String winner = "";
+        for (Entry<String, List<Double>> pichesAthlete : biggestPitchAthletes.entrySet()) {
+            if (pichesAthlete.getValue().get(2) > biggestPitch) {
+                biggestPitch = pichesAthlete.getValue().get(2);
+                winner = pichesAthlete.getKey();
+            } else if (pichesAthlete.getValue().get(2) == biggestPitch) {
+                biggestPitch = pichesAthlete.getValue().get(1);
+                winner = pichesAthlete.getKey();
+            }
+        }
+        return String.format("Winner: %s, points: %.2f", winner, biggestPitch);
     }
 
     private static void WeightliftingModality() {
