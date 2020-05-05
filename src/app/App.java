@@ -1,7 +1,3 @@
-/*
-Nome dos integrantes
-*/
-
 package app;
 
 public class App {
